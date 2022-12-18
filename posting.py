@@ -34,31 +34,33 @@ def image_operation(keyword):
 
 # Creating Tag
 def create_tag(tag_name):
+  id = 0
   data = {"name":tag_name}
   try:
     tag = scraper.post(json_url + '/tags', headers=headers, json=data)
-    tag_id = str(json.loads(tag.content.decode('utf-8'))['id'])
+    id = str(json.loads(tag.content.decode('utf-8'))['id'])
   except KeyError:
     tag = scraper.get(json_url + '/tags', headers=headers)
     tag_id = json.loads(tag.content.decode('utf-8'))
     for tag in tag_id:
-      if tag_name in tag['name']:
-        tag_id = str(tag['id'])
-  return tag_id
+      if tag_name.lower() in tag['name'].lower():
+        id = str(tag['id'])
+  return id
 
 # Creating Category
 def create_category(cat_name):
+  id = 0
   data = {"name":cat_name}
   try:
     cat = scraper.post(json_url + '/categories', headers=headers, json=data)
-    cat_id = str(json.loads(cat.content.decode('utf-8'))['id'])
+    id = str(json.loads(cat.content.decode('utf-8'))['id'])
   except KeyError:
     cat = scraper.get(json_url + '/categories', headers=headers)
     cat_id = json.loads(cat.content.decode('utf-8'))
     for cat in cat_id:
-      if cat_name in cat['name']:
-        cat_id = str(cat['id'])
-  return cat_id
+      if cat_name.lower() in cat['name'].lower():
+        id = str(cat['id'])
+  return id
 
 # Feature image
 def feature_image(keyword):
