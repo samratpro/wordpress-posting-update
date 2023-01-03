@@ -83,15 +83,16 @@ tag_id = create_tag('keyword')
 img_id = feature_image('keyword')
 
 
-post = {'title': title,
-        'slug': keyword,
-        'status': status,
-        'content': post_body,
-        'categories': [category_id],
-        'tags': [tag_id],
-        'format': 'standard',
-        'featured_media': int(img_id),
-        }
+# Post Data
+if tag_id != 0 and category_id == 0:
+  post = {'title': title,'slug': slug,'status': status,'content': post_body,'tags': [tag_id],'format': 'standard'}
+elif tag_id == 0 and category_id != 0:
+  post = {'title': title,'slug': slug,'status': status,'content': post_body,'categories': [category_id],'format': 'standard'}
+elif tag_id == 0 and category_id == 0:
+  post = {'title': title,'slug': slug,'status': status,'content': post_body,'format': 'standard'}
+else:
+  post = {'title': title,'slug': slug,'status': status,'content': post_body,'categories': [category_id],'tags': [tag_id],'format': 'standard'}
+  
 
 # Posting Request
 r = scraper.post(json_url + '/posts', headers=headers, json=post)
