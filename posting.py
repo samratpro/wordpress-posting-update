@@ -2,6 +2,7 @@ import os
 import json
 import base64
 import cloudscraper
+import requests
 scraper = cloudscraper.create_scraper()
 
 website_name = "website.com"
@@ -37,28 +38,30 @@ def create_tag(tag_name):
   id = 0
   data = {"name":tag_name}
   try:
-    tag = scraper.post(json_url + '/tags', headers=headers, json=data)
+    tag = requests.post(json_url + '/tags', headers=headers, json=data)
     id = str(json.loads(tag.content.decode('utf-8'))['id'])
   except KeyError:
-    tag = scraper.get(json_url + '/tags', headers=headers)
+    tag = requests.get(json_url + '/tags', headers=headers)
     tag_id = json.loads(tag.content.decode('utf-8'))
     for tag in tag_id:
-      if tag_name.lower() in tag['name'].lower():
+      if tag_name.lower() == tag['name'].lower():
         id = str(tag['id'])
   return id
+
+print(create_tag('tag Name'))
 
 # Creating Category
 def create_category(cat_name):
   id = 0
   data = {"name":cat_name}
   try:
-    cat = scraper.post(json_url + '/categories', headers=headers, json=data)
+    cat = requests.post(json_url + '/categories', headers=headers, json=data)
     id = str(json.loads(cat.content.decode('utf-8'))['id'])
   except KeyError:
-    cat = scraper.get(json_url + '/categories', headers=headers)
+    cat = requests.get(json_url + '/categories', headers=headers)
     cat_id = json.loads(cat.content.decode('utf-8'))
     for cat in cat_id:
-      if cat_name.lower() in cat['name'].lower():
+      if cat_name.lower() == cat['name'].lower():
         id = str(cat['id'])
   return id
 
