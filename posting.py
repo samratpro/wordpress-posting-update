@@ -48,8 +48,6 @@ def create_tag(tag_name):
         id = str(tag['id'])
   return id
 
-print(create_tag('tag Name'))
-
 # Creating Category
 def create_category(cat_name):
   id = 0
